@@ -1,0 +1,31 @@
+package pages;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class HomePage {
+	
+	WebUtills utill;	
+public HomePage(WebUtills utill) {
+	// TODO Auto-generated constructor stub
+	this.utill=utill;
+}
+
+By text_HmPage=By.xpath("//div[text()='Inn-Flow']");
+
+
+
+
+
+
+
+public void varify_HomePage() {
+	
+	utill.explicitlyWait(utill.getdriver(), 10);
+	utill.waitUntillVisibleOfElement(text_HmPage); 
+
+}
+
+
+}

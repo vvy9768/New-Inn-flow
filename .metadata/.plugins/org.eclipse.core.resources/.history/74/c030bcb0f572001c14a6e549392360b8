@@ -1,0 +1,47 @@
+package Listeners;
+
+import java.util.Date;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+
+public class ExtentManager {
+
+	
+private static ExtentReports extent;
+private static ExtentHtmlReporter htmlReporter;
+private static ExtentReport createIntance() {
+	       htmlReporter=new ExtentHtmlReporter("Reports/report.html");
+	       htmlReporter.config().setEncoding("utf-8");
+	       htmlReporter.config().setDocumentTitle("Automation Reports");
+	       htmlReporter.config().setReportName("Automation Test Result");
+	       
+	       
+	       extent=new ExtentReports();
+}
+	
+private static String getReportName() {
+	Date dt=new Date();
+	String FileName="AutomationReport_"+dt.toString().replace(":", "_").replace(" ", "_")+".png";
+
+	return FileName;
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+

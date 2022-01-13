@@ -1,0 +1,11 @@
+package pages;
+
+import webUtills.WebUtills;
+
+public class Setting {
+	WebUtills utill;	
+public Settoing(WebUtills utill) {
+	// TODO Auto-generated constructor stub
+	this.utill=utill;
+}
+}

@@ -1,0 +1,24 @@
+package extentReport;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+public class ExtentReport {
+  static ExtentReport extReport;
+	public static ExtentReport getObj() {
+		if (extReport==null)
+			extReport=new ExtentReport();
+		else
+      return extReport;
+		return extReport;
+	}
+	ExtentReports extent;
+	
+	public  ExtentReports getExtentReport(String FilePath) {
+	 extent = new ExtentReports();
+	ExtentSparkReporter spark = new ExtentSparkReporter("Reports/"+FilePath);
+
+	extent.attachReporter(spark);
+	return extent;
+}
+}

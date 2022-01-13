@@ -1,0 +1,16 @@
+package basePage;
+
+import excelUtill.ExcelUtill;
+
+public class BasePage {
+
+	protected ExcelUtill exUtill;
+	
+	public void BasePage () {
+		exUtill= ExcelUtill.getExcelObj();
+		exUtill.
+	}
+	
+	
+	
+}

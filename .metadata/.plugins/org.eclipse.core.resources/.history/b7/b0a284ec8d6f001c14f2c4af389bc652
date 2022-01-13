@@ -1,0 +1,61 @@
+package pages;
+
+
+
+
+
+import java.lang.reflect.Method;
+
+import org.openqa.selenium.By;
+
+import basePage.BasePage;
+import webUtills.WebUtills;
+
+public class LoginPage extends BasePage{
+
+	WebUtills utill;
+	
+	public LoginPage(WebUtills utill){
+		this.utill=utill;
+	}
+	
+	By uName=By.cssSelector("input#formBasicEmail");
+	
+	By uPass=By.cssSelector("input#formBasicPassword");
+	
+	By uLogIn_Bt=By.cssSelector("button[type='submit']");
+	
+	
+	
+	
+	
+	
+	
+
+	
+	public void validateUserName() {
+		
+		utill.getElement(uName);
+		utill.varifyEnabled("UserName Input box ");
+		utill.sendKeys(utill.getPropVal("uName"));
+	}
+	
+	
+   public void validateUserPass() {
+	   
+		utill.getElement(uPass);
+		utill.varifyEnabled("UserPass  Input box ");
+		utill.sendKeys(utill.getPropVal("uPass"));
+	}
+
+
+   public void validateUserLogIn(Method name) {
+	  
+		utill.getElement(uLogIn_Bt);
+		utill.varifyEnabled("User logIn Button ");
+		utill.takeSnapshot(name);
+		utill.click();
+  }
+   
+	
+}

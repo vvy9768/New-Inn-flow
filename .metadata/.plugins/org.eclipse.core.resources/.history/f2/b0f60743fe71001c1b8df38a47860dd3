@@ -1,0 +1,41 @@
+package pages;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class Accounting {
+	
+	
+	WebUtills utill;	
+public Accounting(WebUtills utill) {
+	// TODO Auto-generated constructor stub
+	this.utill=utill;
+}
+
+By clk_Report=By.cssSelector("a#Reports");
+
+By clkOnBallenceSheet_=By.xpath("//td[text()='BALANCE SHEET']");
+
+
+
+
+
+
+
+
+
+
+
+
+
+public void clickOnReport() {
+	utill.click_Act(utill.getdriver(), clk_Report);
+}
+
+public void clickOnBallanceSheet() {
+	utill.click_Act(utill.getdriver(),clkOnBallenceSheet_);
+}
+
+
+}

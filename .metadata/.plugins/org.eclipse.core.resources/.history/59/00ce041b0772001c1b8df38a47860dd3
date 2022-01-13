@@ -1,0 +1,32 @@
+package pages;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class Report {
+
+	WebUtills utill;
+	public Report(WebUtills utill) {
+		this.utill=utill;
+		// TODO Auto-generated constructor stub
+	}
+	
+	By clkOn_date=By.cssSelector("select#ctl00_ContentPlaceHolder1_ddlEndingDate");
+	
+	
+	public void putTheDateOfReport(String date) {
+		
+	
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

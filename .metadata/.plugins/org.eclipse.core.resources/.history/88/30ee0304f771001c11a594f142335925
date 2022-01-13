@@ -1,0 +1,46 @@
+package pages;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class HomePage {
+	
+	WebUtills utill;	
+public HomePage(WebUtills utill) {
+	// TODO Auto-generated constructor stub
+	this.utill=utill;
+}
+
+By text_HmPage=By.xpath("//div[text()='Inn-Flow']");
+By Nvg_Acct=By.cssSelector("a#defaultSet-Accounting");
+
+
+
+
+
+
+public void varify_HomePage() {
+	utill.explicitlyWait(utill.getdriver(), 10);
+	utill.waitUntillVisibleOfElement(text_HmPage); 
+    System.out.println("Title of the page : "+utill.getTitle());
+    
+}
+public void NavigateOnAccount() {
+	utill.click_Act(utill.getdriver(), Nvg_Acct);
+	
+}
+public void NavigateOnSales() {
+	utill.click_Act(utill.getdriver(), Nvg_Acct);
+	
+}
+public void NavigateOn() {
+	utill.click_Act(utill.getdriver(), Nvg_Acct);
+	
+}
+public void NavigateOnAccount() {
+	utill.click_Act(utill.getdriver(), Nvg_Acct);
+	
+}
+
+}

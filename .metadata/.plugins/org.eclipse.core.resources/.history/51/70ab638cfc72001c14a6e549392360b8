@@ -1,0 +1,74 @@
+package Listeners;
+
+import java.util.Arrays;
+
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.Markup;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+
+import webUtills.WebUtills;
+
+public class Listener implements ITestListener{
+	  private static ExtentReports extent=ExtentManager.createIntance();
+	  private static ThreadLocal<ExtentTest> extentTest= new ThreadLocal<ExtentTest>();
+	   
+	  
+	  
+	public void onTestStart(ITestResult result) { 
+	       ExtentTest test=extent.createTest(result.getTestClass().getName()+ "::"+result.getMethod().getMethodName());
+	        extentTest.set(test);
+		System.out.println(result.getMethod().getMethodName()+" is started the test ");
+	}  
+	  
+	public void onTestSuccess(ITestResult result) {  
+	  String logText= "<b>Test Method "+result.getMethod().getMethodName()+" Successful<b>";
+	 Markup m= MarkupHelper.createLabel(logText, ExtentColor.GREEN);
+	  extentTest.get().log(Status.PASS, m);
+	  
+	  
+	System.out.println("Success of test cases and its details are : "+result.getMethod().getMethodName());  
+	
+	}  
+	  
+	public void onTestFailure(ITestResult result) {  
+	   String exceptionMassage=Arrays.toString(result.getThrowable().getStackTrace());
+		extentTest.get().fail("<details><summry><b> <font colour=red>+"
+				+ "Exceptions Occured ,click to see detail :"+ "</font></b></summary>"
+				+exceptionMassage.replaceAll(",", "<br>")+"</details>\n");
+		
+		WebUtills.getObj().takeSnapshot(WebUtills.getdriver(),result.getMethod().getMethodName());
+	System.out.println("Failure of test cases and its details are : "+result.getMethod().getMethodName());  
+	}  
+	  
+	public void onTestSkipped(ITestResult result) {  
+		  String logText= "<b>Test Method "+result.getMethod().getMethodName()+" Skipped<b>";
+			 Markup m= MarkupHelper.createLabel(logText, ExtentColor.YELLOW);
+			  extentTest.get().log(Status.SKIP, m);
+			  
+		
+	System.out.println("Skip of test cases and its details are : "+result.getMethod().getMethodName());  
+	}  
+	  
+	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {  
+	// TODO Auto-generated method stub  
+	System.out.println("Failure of test cases and its details are : "+result.getName());  
+	}  
+	  
+	public void t(ITestContext context) {  
+	// TODO Auto-generated method stub  
+		System.out.println("Test case  is Started");
+	}  
+	  
+	public void onFinish(ITestContext context) {  
+	// TODO Auto-generated method stub  
+		System.out.println( "Test case is Finished");
+	} 
+	
+}

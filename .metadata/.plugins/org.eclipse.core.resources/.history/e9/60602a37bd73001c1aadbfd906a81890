@@ -1,0 +1,75 @@
+package pages;
+
+
+
+
+
+
+
+import java.util.Map;
+
+import org.openqa.selenium.By;
+
+import basePage.BasePage;
+import excelUtill.ExcelUtill;
+import webUtills.WebUtills;
+
+public class LoginPage extends BasePage{
+
+	WebUtills utill;
+   
+	public LoginPage(WebUtills utill){
+		this.utill=utill;
+		
+	}
+	
+	By uName=By.cssSelector("input#formBasicEmail");
+	
+	By uPass=By.cssSelector("input#formBasicPassword");
+	
+	By uLogIn_Bt=By.cssSelector("button[type='submit']");
+	
+
+	
+	
+	
+	
+	
+	
+	
+
+	
+	public void validateUserName() {
+		
+		
+		utill.verifyElement_IsVisible(uName,"UserName Input box ");
+		utill.sendKeys(uName,exData.get(uName));
+	}
+	
+	
+   public void validateUserPass() {
+	   
+		utill.getElement(uPass);
+		utill.verifyElement_IsVisible(uPass,"UserPass  Input box ");
+		utill.sendKeys(uPass,exData.get(uPass));
+	}
+
+
+   public void validateUserLogIn() {
+	  
+		utill.getElement(uLogIn_Bt);
+		utill.verifyElement_IsVisible(uLogIn_Bt,"User logIn Button ");
+		utill.click(uLogIn_Bt);
+  }
+   
+   public HomePage validLogIn() {
+	   utill.getElement(uName);
+	   utill.sendKeys(uName,exData.get(uName));
+	   utill.getElement(uPass);
+	   utill.sendKeys(uPass,exData.get(uPass));
+	   utill.getElement(uLogIn_Bt);
+	   utill.click(uLogIn_Bt);
+	   return new HomePage(utill);
+   }
+	
+}

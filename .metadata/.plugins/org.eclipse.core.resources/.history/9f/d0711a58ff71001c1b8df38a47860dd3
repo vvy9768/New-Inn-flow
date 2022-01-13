@@ -1,0 +1,10 @@
+package pages;
+
+import webUtills.WebUtills;
+
+public class Procurement {
+ WebUtills utill;
+public  Procurement(WebUtillsills utill) {
+	this.utill=utill;
+}
+}

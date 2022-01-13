@@ -1,0 +1,34 @@
+package extentReport;
+
+
+
+import org.apache.xml.serializer.Method;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+public class ExtentReport {
+  static ExtentReport extReport;
+	public static ExtentReport getObj() {
+		if (extReport==null)
+			extReport=new ExtentReport();
+		else
+      return extReport;
+		return extReport;
+	}
+	ExtentReports extent;
+	ExtentTest test ;
+	public ExtentTest getExtentTest(String FilePath,String TestCaseName) {
+	 extent = new ExtentReports();
+	ExtentSparkReporter spark = new ExtentSparkReporter("Reports/"+FilePath);
+
+	extent.attachReporter(spark);
+	ExtentTest test1 = extent.createTest(TestCaseName);
+	return test;
+}
+	public void extentFlush() {
+		extent.flush();
+	}
+	
+}

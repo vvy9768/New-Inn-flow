@@ -1,0 +1,11 @@
+package pages;
+
+import webUtills.WebUtills;
+
+public class Accounting {
+	WebUtills utill;	
+public Accounting(WebUtills utill) {
+	// TODO Auto-generated constructor stub
+	this.utill=utill;
+}
+}

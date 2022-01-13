@@ -1,0 +1,13 @@
+package basePage;
+
+import excelUtill.ExcelUtill;
+
+public class BasePage {
+
+	ExcelUtill exUtill;
+	
+	public void 
+	
+	
+	
+}

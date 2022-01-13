@@ -1,0 +1,60 @@
+package testCases;
+
+
+import java.util.concurrent.TimeUnit;
+import org.testng.annotations.Test;
+import BasePage.TestBasePage;
+import pages.Accounting;
+import pages.HomePage;
+import pages.LoginPage;
+import pages.Report;
+import webUtills.WebUtills;
+
+
+
+public class TestCase_TC01 extends TestBasePage {
+
+LoginPage logIn;	
+HomePage hmPage;
+//@Test(priority = 1)
+public void  TC001ValidateLoginPage() {
+	 logIn=new LoginPage(utill);
+	 logIn.validateUserName();
+	
+	 logIn.validateUserPass();
+	 
+	 logIn.validateUserLogIn();
+
+}
+
+@Test(priority = 2)
+public void TC0002GenrateReport() throws InterruptedException {	
+	logIn=new LoginPage(utill);
+	hmPage=logIn.validLogIn();
+	hmPage.wait_HomePage();
+	
+	Accounting accPg=hmPage.NavigateOnAccount();
+	Thread.sleep(2000);
+	accPg.windowHandle("Dashboard");
+	accPg.clickOnReport();
+	
+	String  nameOfDepartment[] =utill.getKey("ReportName");
+	Report reprt=accPg.NavigateOnReport(nameOfDepartment[0]);
+	accPg.windowHandle("Report");
+	String [] date=utill.getKey("Date");
+	 reprt.putDateOReport(date[0]);
+	 
+	 String [] HIDs=utill.getKey("EHID");
+	for (int i = 0; i < HIDs.length-1; i++) {
+		HIDs=utill.getKey("EHID");
+    reprt.chaked_ChakeBoxes( HIDs[i]);
+	}
+    reprt.loadTheReport();
+    
+    reprt.focusOnPage("Report");
+    reprt.downloadTheReportInExcel();
+}
+
+
+
+}

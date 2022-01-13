@@ -1,0 +1,15 @@
+package basePage;
+
+
+
+public class BasePage {
+
+	
+	public void BasePage () {
+		
+		
+	}
+	
+	
+	
+}

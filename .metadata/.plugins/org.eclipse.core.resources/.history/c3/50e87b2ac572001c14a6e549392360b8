@@ -1,0 +1,9 @@
+package extentReport;
+
+
+
+public class ExtentReport {
+
+	public ExtentReport() {
+			}
+}

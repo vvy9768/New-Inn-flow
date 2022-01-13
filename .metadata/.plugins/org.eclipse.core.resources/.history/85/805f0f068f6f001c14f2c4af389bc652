@@ -1,0 +1,30 @@
+package testCases;
+
+
+
+
+import java.lang.reflect.Method;
+
+import org.testng.annotations.Test;
+
+import BasePage.TestBasePage;
+import pages.LoginPage;
+
+
+
+public class TestCase_TC01 extends TestBasePage {
+
+LoginPage logIn;	
+@Test (enabled = true)	
+public void Validate_LoginPage(Method name) {
+	 logIn=new LoginPage(utill);
+	 logIn.validateUserName();
+	 log.info("validate UserName input box of LogInPage");
+	 logIn.validateUserPass();
+	 log.info("validate UserPass input box of LogInPage ");
+	 logIn.validateUserLogIn(name);
+	 log.info("validate UserLogIn Button of LogInPage");
+ 		
+}
+
+}
