@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -53,8 +53,7 @@ private static WebUtills WbUtill;
 private static WebDriver driver;	
 private static WebElement we;	
 private static List<WebElement> listWe	;
-public static   ExtentTest exTestLogger; // we could generate the logs in the report.
- // we set the path where our reports need to generate.
+public static   ExtentTest exTestLogger; 
 	
 	
 	
@@ -70,15 +69,16 @@ public static WebUtills getObj() {
 	return WbUtill;
 }
 
-public static WebDriver getdriver() {
-if (driver==null) {
+public  WebDriver getdriver() {
+
+	if (driver==null) {
 	System.setProperty("webdriver.chrome.driver", "jar/chromedriver.exe");
-driver=new ChromeDriver();
-}else {
-	return driver;
-}
-return driver;
-}
+     driver=new ChromeDriver();
+     }else {
+     	return driver;
+    }
+    return driver;
+   }
 
 
 
@@ -91,47 +91,57 @@ public void launchBrowser(String browserName) {
 	if(browserName.equalsIgnoreCase("chrome")){
 		System.setProperty("webdriver.chrome.driver", "jar/chromedriver.exe");
 		driver=new ChromeDriver();
-	}else if(browserName.equalsIgnoreCase("firefox")) {
+		logger.info(browserName+" Browser has been launched successfully");	
+		exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
+
+ 	}else if(browserName.equalsIgnoreCase("firefox")) {
 		System.setProperty("webdriver.gecko.driver", "jar/geckodriver.exe");
 	driver=new FirefoxDriver();
+	logger.info(browserName+" Browser has been launched successfully");	
+	exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
+
 	}else if(browserName.equalsIgnoreCase("ms")) {
 		System.setProperty("webdriver.edge.driver", "jar/msedgedriver.exe");
 	 driver=new EdgeDriver();
+	 logger.info(browserName+" Browser has been launched successfully");	
+	 exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
+	
 	}else if(browserName.equalsIgnoreCase("ie")) {
 		System.setProperty("webdriver.ie.driver", "jar/msedgedriver.exe");
 		driver=new InternetExplorerDriver();
+		logger.info(browserName+" Browser has been launched successfully");	//driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS );
+		exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
+
 	}
-	logger.info(browserName+" Browser has been launched successfully");
-	exTestLogger.log(Status.INFO, browserName + " Browser is Launch sucessfully ");
-	//driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS );
+	
 	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 }
 
 public void navigateTo(String url) {
 	driver.navigate().to(url);
-	exTestLogger.log(Status.INFO, url + " Navigated SuccesFully ");
+	exTestLogger.log(Status.INFO, String.format("Navigated on "+ url));
 
 }
 public void get(String url) {
 	driver.get(url);
-	exTestLogger.log(Status.PASS, url+"  Navigated SuccesFully  ");
+	exTestLogger.log(Status.INFO, String.format("Navigated on :"+ url) );
 }
 	
 public void closeBrowser() {
 	driver.close();
-	exTestLogger.log(Status.INFO, "  closed browser SuccesFully  ");
+	
+	exTestLogger.log(Status.INFO, String.format("Browser closed ") );
 
 }
 
 public void quitBrowser() {
 	driver.quit();
-	exTestLogger.log(Status.INFO, "  Quit browser SuccesFully  ");
+	exTestLogger.log(Status.INFO, String.format("Browser closed " ) );
 
 }
 public void deleteAllCookies() {
 	driver.manage().deleteAllCookies();
-	exTestLogger.log(Status.INFO, "  deleteAllCookies of browser SuccesFully  ");
-
+    
 }
 
 public String getTitle() {
@@ -157,49 +167,47 @@ public List<WebElement> getElements(By by) {
 }
 
 
-public void click(By by) {
+public void click(By by, String elemtName) {
 	we=driver.findElement(by);
 	we.click();
+	exTestLogger.log(Status.PASS, String.format(elemtName +" is clicked successfully  ",ExtentColor.GREEN) );
+	
 }
 
 public void sendKeys(By element,String input) {
-	try {
+
 		WebElement we = getElement(element);
 		we.clear();
 			we.sendKeys(input);
-			exTestLogger.log(Status.INFO,
-					"value ( " + input + " ) is inputed SuceessFully on " + element.toString());
-
+	
+			exTestLogger.log(Status.PASS, String.format(input +" is successfully filled ",ExtentColor.GREEN) );
 		
-	} catch (ElementNotInteractableException e) {
-		exTestLogger.log(Status.FAIL,
-				MarkupHelper.createLabel(element.toString() + " Element is not present ", ExtentColor.RED));
-	
-	}
-	
 }
 public void getTagName() {
 	we.getTagName();
 }
-public void getText() {
-	we.getText();
+public String  getText(By by) {
+	we=getElement(by);
+	return we.getText();
 }
 public void maximize() {
 	driver.manage().window().maximize();
-	exTestLogger.log(Status.INFO, "Maximize the Window  is Applied sucessfully ");
-
+	
 }
 //================================varify The Elements ====================================================//
 
-public void verifyText(By element, String expectedText, String elementname) {
-	String actualText = getElement(element).getText();
+public void verifyText(By element, String expectedText) {
+	String actualText;
+	
+	 actualText = getElement(element).getText();
+
 	if (actualText.equals(expectedText)) {
 		exTestLogger.log(Status.PASS,
-				MarkupHelper.createLabel(elementname + "  Text is present", ExtentColor.GREEN));
+				MarkupHelper.createLabel(String.format(expectedText+"  is Matched"), ExtentColor.GREEN));
 
 	} else {
 		exTestLogger.log(Status.FAIL,
-				MarkupHelper.createLabel(elementname + " Text is not present", ExtentColor.RED));
+				MarkupHelper.createLabel(String.format(expectedText+" is not Matched"), ExtentColor.RED));
 
 		try {
 			Assert.assertEquals(actualText, expectedText);
@@ -212,27 +220,28 @@ public void verifyText(By element, String expectedText, String elementname) {
 }
 public void verifyElement_IsVisible(By element,String elementName) {
 	boolean actual = getElement(element).isDisplayed();
+	
 	if (actual == true) {
-		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(elementName + " is  visible", ExtentColor.GREEN));
+		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(elementName)+" is visible", ExtentColor.GREEN));
 
 	} else {
-		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(elementName, ExtentColor.RED) + "is not visible ");
+		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(elementName)+" is not visible" ,ExtentColor.RED) );
 
 		try {
 			Assert.assertEquals(actual, true);
-		} catch (Throwable t) {
-			exTestLogger.log(Status.FAIL, t);
+		} catch (Throwable e) {
+			exTestLogger.log(Status.FAIL, e);
 		}
 
 	}
 }
-public void verifyElement_IsSelected(By element, String elementname) {
+public void verifyElement_IsSelected(By element, String elementName) {
 	boolean actual = getElement(element).isSelected();
 	if (actual == true) {
-		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(elementname + " is  Selected", ExtentColor.GREEN));
+		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(elementName )+" is  Selected", ExtentColor.GREEN));
 
 	} else {
-		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(elementname + " is not Selected ", ExtentColor.RED));
+		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(elementName)+" is not Selected", ExtentColor.RED));
 
 		try {
 			Assert.assertEquals(actual, true);
@@ -243,13 +252,14 @@ public void verifyElement_IsSelected(By element, String elementname) {
 	}
 }
 
-public void verifyElement_IsEnable(By element, String elementname) {
+public void verifyElement_IsEnable(By element, String elementName) {
 	boolean actual = getElement(element).isEnabled();
+	
 	if (actual == true) {
-		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(elementname + " is  enable", ExtentColor.GREEN));
+		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(elementName)+" is Enable", ExtentColor.GREEN));
 
 	} else {
-		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(elementname + " is not enable ", ExtentColor.RED));
+		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(elementName)+ " is  Disable", ExtentColor.RED));
 
 		try {
 			Assert.assertEquals(actual, true);
@@ -260,28 +270,78 @@ public void verifyElement_IsEnable(By element, String elementname) {
 	}
 	
 }
+public void verifyTextByElement(By element, String exp_text) {
+	String act_text = getElement(element).getText();
+	if (act_text.equalsIgnoreCase(exp_text)) {
+		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(exp_text)+" text is matched ", ExtentColor.GREEN));
+
+	} else {
+		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(exp_text)+ " text is  not matched ", ExtentColor.RED));
+
+		try {
+			Assert.assertEquals(act_text, exp_text);
+		} catch (Throwable t) {
+			exTestLogger.log(Status.FAIL, t);
+		}
+
+	}
+}
+public void verifyUrlByElement(String exp_text) {
+	String act_text = driver.getCurrentUrl();
+	if (act_text.equalsIgnoreCase(exp_text)) {
+		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(exp_text)+" url is matched ", ExtentColor.GREEN));
+
+	} else {
+		exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(exp_text)+ " url is not matched ", ExtentColor.RED));
+
+		try {
+			Assert.assertEquals(act_text, exp_text);
+		} catch (Throwable t) {
+			exTestLogger.log(Status.FAIL, t);
+		}
+
+	}
+}
+	public void verifyText(String act_text , String exp_text) {
+	
+		if (act_text.equalsIgnoreCase(exp_text)) {
+			exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(exp_text)+" text is matched as per test case ", ExtentColor.GREEN));
+
+		} else {
+			exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(exp_text)+ "text  is  not matched as per test case  ", ExtentColor.RED));
+
+			try {
+				Assert.assertEquals(act_text, exp_text);
+			} catch (Throwable t) {
+				exTestLogger.log(Status.FAIL, t);
+			}
+
+		}
+	
+}
+
 //====================================Select====================================//
 Select slc;
 public void selectByValue(By by, String value) {
 	we=driver.findElement(by);
     slc= new Select(we);
    	slc.selectByValue(value);
-   	exTestLogger.log(Status.INFO, "Select By Value    performed successfully on " + value);
+   	exTestLogger.log(Status.PASS, String.format(value+" is slected from dropdown ",ExtentColor.BLUE) );
 
    	  }
 public void selectByIndex(By by, int num) {
 	we=driver.findElement(by);
     slc= new Select(we);
-   		 slc.selectByIndex(num);
-   		exTestLogger.log(Status.INFO, "Select By index  performed successfully on index : " + num);
+    slc.selectByIndex(num);
+    exTestLogger.log(Status.PASS, String.format(num+"th no index is slected from dropdown ",ExtentColor.BLUE) );
 
    	  }
 public void selectByVisibleText(By by, String text) {
 	we=driver.findElement(by);
     slc= new Select(we);
-   		 slc.selectByVisibleText(text);
-   		exTestLogger.log(Status.INFO, "Select By Visible text    performed successfully on " + text);
-
+    slc.selectByVisibleText(text);
+    exTestLogger.log(Status.PASS, String.format(text+" is slected from dropdown ",ExtentColor.BLUE) );
+		
    	  }
 
  public List<WebElement> getOptions(By by) {
@@ -290,9 +350,9 @@ public void selectByVisibleText(By by, String text) {
 	 return slc.getOptions();	 
  }
  public void selectAllOptions(By by) {
-	 we= driver.findElement(by);
-		Select se = new Select(we);
-		List<WebElement> listWe=se.getAllSelectedOptions();
+	  we= driver.findElement(by);
+	 Select se = new Select(we);
+	 List<WebElement> listWe=se.getAllSelectedOptions();
      for(WebElement list:listWe) {
      	System.out.println(list.getText());
      }
@@ -313,46 +373,45 @@ public void selectByVisibleText(By by, String text) {
  public static void buildPerform() {
 	 act.build().perform();
  }
- public void click_Act(By element) {
+ public void click_Act(By element,String elmtName) {
 		act = new Actions(driver);
 		act.click(getElement(element)).build().perform();
-		exTestLogger.log(Status.INFO, "Action click performed successfully on " + element.toString());
+		exTestLogger.log(Status.PASS, String.format(elmtName+" is clicked on successfully ",ExtentColor.BLUE) );
 
 	}
 
-	public void actClickAndHold(By element) {
+	public void actClickAndHold(By element,String elmtName) {
 		act = new Actions(driver);
 		act.clickAndHold(getElement(element)).build().perform();
-		exTestLogger.log(Status.INFO, "Action Click  And Hold performed successfully on " + element.toString());
+		exTestLogger.log(Status.PASS, String.format(elmtName+" is clicked and hold on successfully ",ExtentColor.BLUE) );
 
 	}
 
 	public void actDragAndDrop(By element, By target) {
 		act = new Actions(driver);
 		act.dragAndDrop(getElement(element), getElement(target)).build().perform();
-		exTestLogger.log(Status.INFO, "Action drag And Drop   performed successfully on " + element.toString());
-
+		
 	}
 
 	public void actDoubleClick(By element) {
 		act = new Actions(driver);
 		act.doubleClick(getElement(element)).build().perform();
-		exTestLogger.log(Status.INFO, "Action DoubleClick   performed successfully on " + element.toString());
-
+	
 	}
 
-	public void mouseHover(By element) {
+	public void mouseOver(By element) {
 		act = new Actions(driver);
 		act.moveToElement(getElement(element)).build().perform();
-		exTestLogger.log(Status.INFO, "Action mouseHover   performed successfully on " + element.toString());
-
+		String txt =getElement(element).getText();
+		
+		exTestLogger.info( MarkupHelper.createLabel("mouse over to "+txt, ExtentColor.BLUE));
+		
 	}
 
 	public void actSendKeys(By element, String value) {
 		act = new Actions(driver);
 		act.sendKeys(getElement(element), value).build().perform();
-		exTestLogger.log(Status.INFO, "Action SendKeys   performed successfully on " + element.toString());
-
+		
 	}
  
  
@@ -364,8 +423,8 @@ public void selectByVisibleText(By by, String text) {
 		driver.switchTo().window(window);
 		String act_title=driver.getTitle();
 		if(act_title.equalsIgnoreCase(exp_title)) {
-			exTestLogger.log(Status.INFO, exp_title+"  called  SuccesFully  ");
-
+			exTestLogger.log(Status.PASS, String.format("Navigate on page "+exp_title));
+			
 			break;
 		}	
 	}
@@ -373,31 +432,31 @@ public void selectByVisibleText(By by, String text) {
 
  }
  public void getWindowHandleByUrl(String exp_url) {
+	 
 		Set<String> windows=driver.getWindowHandles();
 		for(String window:windows) {
 			driver.switchTo().window(window);
 			String act_url=driver.getCurrentUrl();
-			if(act_url.startsWith(exp_url)) {
-				exTestLogger.log(Status.INFO, exp_url+"  called  SuccesFully  ");
+			if(act_url.startsWith(exp_url)) 
+			{
+				exTestLogger.log(Status.PASS, String.format("Navigate on Url :"+ exp_url));
 				break;
 			}
 		}
-		exTestLogger.log(Status.INFO, " getWindowHandleByUrl called  SuccesFully  ");
-
+	
 	 }
 
-	public void windowHandleOnlyOneByTitle(String exp_titles) {
-		Set<String> wndw = driver.getWindowHandles();
-		for (String window : wndw) {
+	public void windowHandleOnlyOneByTitle(String exp_title) {
+		Set<String> windows = driver.getWindowHandles();
+		for (String window : windows) {
 			driver.switchTo().window(window);
 			String title = driver.getTitle();
-			if (!title.equalsIgnoreCase(exp_titles)) {
-				exTestLogger.log(Status.INFO, exp_titles+"  called  SuccesFully  ");
-				driver.close();
+			if (!title.equalsIgnoreCase(exp_title)) {
+				exTestLogger.log(Status.PASS, String.format("Navigate on page "+ exp_title));
+					driver.close();
 			}
 		}
-		exTestLogger.log(Status.INFO, " windowHandleOnlyOneByTitle called  SuccesFully  ");
-
+		
 	}
 	public void windowHandleOnlyOneByUrl(String exp_url) {
 		Set<String> wndw = driver.getWindowHandles();
@@ -407,8 +466,7 @@ public void selectByVisibleText(By by, String text) {
 			if (!act_url.equalsIgnoreCase(exp_url)) {
 				driver.close();
 			}
-		}exTestLogger.log(Status.INFO, " windowHandleOnlyOneByUrl called  SuccesFully  ");
-
+		}
 	}
 	//=================================Alert============================================//
 	public void alertAccept() {
@@ -428,10 +486,9 @@ public void selectByVisibleText(By by, String text) {
 	}
 //=====================================wait=================================================//
 	WebDriverWait wait;
-	public void imlicitlyWait(int timeInSec) {
+	public void imlecitlyWait(int timeInSec) {
 		driver.manage().timeouts().implicitlyWait(timeInSec, TimeUnit.SECONDS);
-		exTestLogger.log(Status.INFO, " implicitlyWait is Applied sucessfully ");
-
+		
 	}
 	
 	public void pageLoadTimeOut(int time) {
@@ -444,34 +501,29 @@ public void selectByVisibleText(By by, String text) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		exTestLogger.log(Status.INFO, " Thread.sleep  is Applied sucessfully ");
-
+	
 	}	
    public void  explicitlyWait(WebDriver driver,int timeOutInSeconds) {
 		wait= new WebDriverWait(driver, timeOutInSeconds);
-		exTestLogger.log(Status.INFO, " explicitlyWait is Applied sucessfully ");
-
+		
 	}
 
 	public void waitUntillVisibleOfElement(By Element) {
 		we=driver.findElement(Element);
 		wait.until(ExpectedConditions.visibilityOf(we));
-		exTestLogger.log(Status.INFO, " waitUntillVisibleOfElement is Applied sucessfully ");
-
+	
 	}
 	
 	public void waitUntillTextToBePresent(By Element,String text) {
 		we=driver.findElement(Element);
 		wait.until(ExpectedConditions.textToBePresentInElement(we, text));
-		exTestLogger.log(Status.INFO, " waitUntillTextToBePresent is Applied sucessfully ");
-
+		
 	}
 	
 	public void waitUntillUrlToBePresent(String url) {
 		
 		wait.until(ExpectedConditions.urlContains(url));
-		exTestLogger.log(Status.INFO, " waitUntillTextToBePresent is Applied sucessfully ");
-
+	
 	}
 	//=====================================SnapShot======================================================//
 	public String takeSnapshot(WebDriver driver,String  string) {
@@ -492,7 +544,8 @@ public void selectByVisibleText(By by, String text) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		exTestLogger.log(Status.PASS, " takeSnapshot is Applied sucessfully ");
+		
+		exTestLogger.log(Status.FAIL, " takeSnapshot is Applied sucessfully ");
 
 		return path;
 	
@@ -599,25 +652,32 @@ public void selectByVisibleText(By by, String text) {
 		
 	private static ExtentReports extent;
 	private static ExtentHtmlReporter htmlReporter;
-	public static ExtentReports initHtmlReport() {
-		             getReportName();
-		            System.out.println(path);
+	
+	public  ExtentReports initHtmlReport() {
+		           getReportName();
 		       htmlReporter=new ExtentHtmlReporter(path);
+		       
 		       htmlReporter.config().setEncoding("utf-8");
 		       htmlReporter.config().setDocumentTitle("Automation Reports");
 		       htmlReporter.config().setReportName("Automation Test Result");
-		       htmlReporter.config().setTheme(Theme.STANDARD);
-		       
+		       htmlReporter.config().setTheme(Theme.DARK);
+		         
 		       extent=new ExtentReports();
 		       extent.setSystemInfo("CompanyName", "Inn-flow");
 		       extent.setSystemInfo("Emp", "Report by Virendra");
 		       extent.setSystemInfo("Browser", "Chrome");
 		       extent.setSystemInfo("Report", "ExtentReport(.html)");
 		       extent.attachReporter(htmlReporter);
+		  
 		       return extent;
+		       
 	}
 
-	public static String getReportName() {
+	private void removeTest() {
+		extent.removeTest(exTestLogger);
+	}
+	
+	public  String getReportName() {
 		 String directory;
 		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		 Date dateWithoutTime = null;
@@ -640,6 +700,7 @@ public void selectByVisibleText(By by, String text) {
 	public void setExtentLogger(String TestCaseName) {
 		exTestLogger = extent.createTest(TestCaseName);
 	}
+	
 	public void flushExtentsReport() {
 		extent.flush();
 	}
@@ -649,10 +710,8 @@ public void selectByVisibleText(By by, String text) {
 		return exTestLogger;
 	}
 
-	private Map<String ,String> testcaseDataMap;
-	public void setTestCaseData(Map<String ,String> map) {
-		 testcaseDataMap=map;
-	}
+	
+	
 	
 	public String [] getKey(String key) {
 		String strArr[] = null;
@@ -668,9 +727,44 @@ public void selectByVisibleText(By by, String text) {
 		}
 		
 	}
+//==============================Setter and Getter method================================================//	
+	
+	
+	
+	private Map<String ,String> testcaseDataMap;
+	public void setTestCaseData(Map<String ,String> map) {
+		 testcaseDataMap=map;
+	}
+	ArrayList<String>testcaseDataList;
+	public ArrayList<String> getTestCaseDataArrayList() {
+		return testcaseDataList;
+	} 
+	public void setTestCaseList(ArrayList<String> list) {   
+		testcaseDataList=list;
+	}
+	
 	public Map<String ,String> getTestCaseDataMap() {
 		return testcaseDataMap;
 	}
-
+	
+	String text;
+   public void setText(String text) {
+	  this.text=text;
+   }
+   public String  getText() {	 
+	 return text;
+   }
+	
+    
+ 
+ 
+	public String getExData(String str) {
+	     String data=testcaseDataMap.get(str);
+	     return data;
+    }
+	
+	
+   
+	
  
 }

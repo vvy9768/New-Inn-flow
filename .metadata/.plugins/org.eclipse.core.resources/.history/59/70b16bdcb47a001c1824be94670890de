@@ -1,0 +1,151 @@
+package pages;
+
+import java.util.Map;
+import org.openqa.selenium.By;
+import com.aventstack.extentreports.Status;
+import basePage.BasePage;
+import webUtills.WebUtills;
+
+public class LoginPage extends BasePage {
+
+	WebUtills utill;
+	String elemtName;
+	String text;
+	public LoginPage(WebUtills utill) {
+		this.utill = utill;
+
+	}
+
+	By we_uName = By.cssSelector("input#formBasicEmail");
+
+	By we_uPass = By.cssSelector("input#formBasicPassword");
+
+	By we_uLogIn_Bt = By.cssSelector("button[type='submit']");
+   
+	By we_HmLogo=By.xpath("//div[text()='Inn-Flow']");
+
+	By we_invald_txt=By.xpath("(//span[@class='invalid-feedback'])[3]");
+	
+	By we_primCtc_dd= By.cssSelector("select[title='Select Primary Contact']");
+	
+	By we_primCtc_txt=By.cssSelector("p[class='text-danger text-center my-2']");
+	
+	By we_priCtc_rq_txt= By.cssSelector("em[class='text-danger']");
+	
+	By we_priEmail= By.cssSelector("input[title='Enter email address']");
+	
+	By we_priMobile=By.cssSelector("input[title='Enter mobile number']");
+	
+	By we_updt_bt=By.cssSelector("button[title='Update']");
+	
+	By we_pre_txt=By.cssSelector("div[class='modal-title h4']");
+	
+	
+	
+	private Map<String, String> tcData;
+	
+	public void validateUserName() {
+		elemtName =utill.getPropVal("type_uName");
+		 
+		 tcData = utill.getTestCaseDataMap();
+		 utill.verifyElement_IsEnable(we_uName, elemtName);
+		 utill.sendKeys(we_uName, tcData.get("uName"));
+		 
+	}
+	
+	
+	public void validateUserPass() {
+		elemtName=utill.getPropVal("type_uPass");
+		utill.verifyElement_IsEnable(we_uPass, elemtName);
+		utill.sendKeys(we_uPass, tcData.get("uPass"));
+	}
+	
+
+	public void validateUserLogIn() {
+		elemtName=utill.getPropVal("type_uLogIn");
+		utill.getElement(we_uLogIn_Bt);
+		utill.verifyElement_IsEnable(we_uLogIn_Bt, elemtName);
+		utill.click(we_uLogIn_Bt);
+		utill.getExtentLogger().log(Status.PASS, " Inn-flow is LogIn button Click Successfully ");
+	       
+		  
+	}
+	public void varifyHomePage(String expText) {
+		utill.HoldOn(1000);
+		utill.verifyText(we_HmLogo, expText );
+		utill.getExtentLogger().log(Status.PASS, " Inn-flow is LogIn Successfully and Navigated On HomePage ");
+	      
+	}
+
+	
+	public HomePage validUserLogIn() {
+		tcData = utill.getTestCaseDataMap();
+		
+		utill.getElement(we_uName);
+		utill.sendKeys(we_uName, tcData.get("uName"));
+		utill.getElement(we_uPass);
+		utill.sendKeys(we_uPass, tcData.get("uPass"));
+		utill.getElement(we_uLogIn_Bt);
+		utill.click(we_uLogIn_Bt);
+		utill.getExtentLogger().log(Status.PASS, " Inn-flow is LogIn Successfully and Navigated On HomePage ");
+		return new HomePage(utill);
+	}
+
+	
+	public void invalidUserLogIn() {
+		tcData = utill.getTestCaseDataMap();
+		
+		utill.sendKeys(we_uName, tcData.get("In_uName"));
+		utill.sendKeys(we_uPass, tcData.get("In_uPass"));
+		utill.click(we_uLogIn_Bt);
+		utill.getExtentLogger().log(Status.PASS, " Inn-flow  LogIn Successfully and Navigated On HomePage ");
+		
+		
+	}
+	
+	public void verifyTextOnWrongCred(String expText) {
+		utill.HoldOn(1000);
+		utill.verifyText(we_invald_txt, expText);
+		
+		
+	}
+	
+	public void selectEmailAdd() {
+		utill.selectByValue(we_primCtc_dd, "email");
+	}
+	
+	public void selectMoblileNo() {
+		utill.selectByValue(we_primCtc_dd, "mobile");
+	}
+	
+	
+	public void verifyTextOnPriCtc_Sel(String expText) {
+		utill.HoldOn(1000);
+		utill.verifyText(we_priCtc_rq_txt, expText);
+		
+	}
+	public void verifyTextOnPriCtc_upd(String expText) {
+		utill.HoldOn(2000);
+		utill.verifyText(we_primCtc_txt, expText);
+		
+	}
+	
+	public void putEmail() {
+		
+		utill.sendKeys(we_priEmail,tcData.get("Email") );
+	}
+	
+   public void putMobile() {
+		
+		utill.sendKeys(we_priEmail,tcData.get("Mobile") );
+	}
+	
+	public void clickOnUpdate() {
+		utill.click_Act(we_updt_bt);
+	}
+	
+	public void  verifyTextOfPre_ctcPage(String exp_Text) {
+		utill.verifyText(we_pre_txt, exp_Text);
+	}
+	
+}

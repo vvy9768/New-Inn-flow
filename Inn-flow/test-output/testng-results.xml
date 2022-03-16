@@ -1,69 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
+<testng-results skipped="0" failed="0" ignored="3" total="3" passed="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Suite" duration-ms="144295" started-at="2022-01-13T20:28:12 IST" finished-at="2022-01-13T20:30:36 IST">
+  <suite name="Suite" duration-ms="0" started-at="2022-02-23T10:11:25 IST" finished-at="2022-02-23T10:11:25 IST">
     <groups>
     </groups>
-    <test name="Test" duration-ms="144295" started-at="2022-01-13T20:28:12 IST" finished-at="2022-01-13T20:30:36 IST">
+    <test name="Test" duration-ms="0" started-at="2022-02-23T10:11:25 IST" finished-at="2022-02-23T10:11:25 IST">
       <class name="testCases.TestCase_TC01">
-        <test-method status="PASS" signature="beforeSuit()[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="beforeSuit" is-config="true" duration-ms="214" started-at="2022-01-13T20:28:12 IST" finished-at="2022-01-13T20:28:12 IST">
+        <test-method status="PASS" signature="beforeSuit()[pri:0, instance:testCases.TestCase_TC01@69379752]" name="beforeSuit" is-config="true" duration-ms="149" started-at="2022-02-23T10:11:25 IST" finished-at="2022-02-23T10:11:25 IST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeSuit -->
-        <test-method status="PASS" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="beforeMethod" is-config="true" duration-ms="17775" started-at="2022-01-13T20:28:12 IST" finished-at="2022-01-13T20:28:30 IST">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void testCases.TestCase_TC01.TC0002GenrateReport() throws java.lang.InterruptedException]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="TC0002GenrateReport()[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="TC0002GenrateReport" duration-ms="88761" started-at="2022-01-13T20:28:30 IST" finished-at="2022-01-13T20:29:58 IST">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- TC0002GenrateReport -->
-        <test-method status="PASS" signature="afterMethod(org.testng.ITestResult)[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="afterMethod" is-config="true" duration-ms="1572" started-at="2022-01-13T20:29:58 IST" finished-at="2022-01-13T20:30:00 IST">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=TC0002GenrateReport status=SUCCESS method=TestCase_TC01.TC0002GenrateReport()[pri:0, instance:testCases.TestCase_TC01@57f23557] output={null}]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="beforeMethod" is-config="true" duration-ms="34210" started-at="2022-01-13T20:30:00 IST" finished-at="2022-01-13T20:30:34 IST">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[public void testCases.TestCase_TC01.TC001ValidateLoginPage()]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="TC001ValidateLoginPage()[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="TC001ValidateLoginPage" duration-ms="902" started-at="2022-01-13T20:30:34 IST" finished-at="2022-01-13T20:30:35 IST">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- TC001ValidateLoginPage -->
-        <test-method status="PASS" signature="afterMethod(org.testng.ITestResult)[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="afterMethod" is-config="true" duration-ms="1017" started-at="2022-01-13T20:30:35 IST" finished-at="2022-01-13T20:30:36 IST">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=TC001ValidateLoginPage status=SUCCESS method=TestCase_TC01.TC001ValidateLoginPage()[pri:0, instance:testCases.TestCase_TC01@57f23557] output={null}]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- afterMethod -->
-        <test-method status="PASS" signature="afterSuit()[pri:0, instance:testCases.TestCase_TC01@57f23557]" name="afterSuit" is-config="true" duration-ms="4844" started-at="2022-01-13T20:30:36 IST" finished-at="2022-01-13T20:30:41 IST">
+        <test-method status="PASS" signature="afterSuit()[pri:0, instance:testCases.TestCase_TC01@69379752]" name="afterSuit" is-config="true" duration-ms="1" started-at="2022-02-23T10:11:25 IST" finished-at="2022-02-23T10:11:25 IST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuit -->

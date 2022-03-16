@@ -1,0 +1,97 @@
+package sql;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import excelUtill.ExcelUtill;
+
+public class FatchDataFromDataBase {
+
+	
+	static Connection con = null;
+
+	private static Statement stmt;
+	
+	public static String DB_URL = "jdbc:sqlserver://10.0.0.6:16845;database=MULTIDB;";
+		
+
+	
+	//10.0.0.6,16845
+	//IFSql19Vm-2
+	
+	//jdbc:sqlserver://< ip >:1433;databaseName=projdat;user= ** ;password= **
+	
+	public static String DB_USER = "IFQATester";
+	
+	public static String DB_PASSWORD = "chrhx?+#NjhFMT5Y";
+
+	@BeforeTest
+	public void setUp() throws Exception {
+	try{
+
+
+	String dbClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	Class.forName(dbClass).newInstance();
+
+	Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+	stmt = con.createStatement();
+	}
+	catch (Exception e)
+	{
+	e.printStackTrace();
+	}
+	}
+
+	@Test
+	public void test() {
+	try{
+	String query ="select  distinct PermissionMaster.PermissionName, UserRole.RoleID, PermissionRole.PermissionID ,PermissionMaster.ModuleName \r\n" + 
+			    "from PermissionRole  inner join UserRole on PermissionRole.RoleID=UserRole.RoleID  inner join PermissionMaster\r\n" + 
+			  "on PermissionMaster.PermissionID=PermissionRole.PermissionID where RoleName='Corporate Controller' and \r\n" + 
+			  "PermissionRole.TenantID='101' and PermissionMaster.ModuleName ='LaborManagement' and PermissionMaster.LevelInfo='1'";
+
+	ResultSet res = stmt.executeQuery(query);
+	
+	while (res.next())
+	{
+		for (int i = 1; ; i++) {
+			for (int j = 1; j < 5; j++) {
+				System.out.print(res.getString(j));
+				ExcelUtill.getExcelObj().writeData("SQLSheet/HomePageData.xlsx", "Sheet1", i, j, res.getString(j));
+		       
+			}
+		}
+		 
+		
+//	System.out.print("    " + res.getString(2));
+//	System.out.print("    " + res.getString(3));
+//	System.out.println("    " + res.getString(4));
+	}
+	}
+	catch(Exception e)
+	{
+	e.printStackTrace();
+	}
+	}
+
+	@AfterTest
+	public void tearDown() throws Exception {
+
+	if (con != null) {
+	con.close();
+	}
+	}
+	
+	
+	
+	
+	
+	
+}

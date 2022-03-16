@@ -20,24 +20,27 @@ import javax.mail.internet.MimeMultipart;
 
 public class SendJavaMailReport {
 	static String fileName;
+	//Reports/AutomationReport_Mon_Jan_24_00_00_00_IST_2022.html
 	public SendJavaMailReport(String filename) {
 		fileName=filename;
 	
 	}
-	public static void main() {
-		
 	
-		String message="Hello Dear ! this is massage for security chake . ";
-		String subject ="Inn-Flow QA(Automation) : for coinfirmation ";
-		String to="softech.vire0@yahoo.com";
+	public  void main() {
+		
+	    Date d=new Date();
+		String message="Hello Dear ! this is report of the day ";
+		String subject ="Inn-Flow QA(Automation) : Report "+d;
+		//,"jyoti.rajpal@inn-flow.com","avinash.dubey@inn-flow.com"
+		String to[]={"kanha3476599@gmail.com","skgaud81199@gmail.com"};
 		String from="softech.vire@gmail.com";
+		
 		//String fileName="Reports/"+"AutomationReport_Wed_Jan_12_13_02_31_IST_2022.html";
 		sendMail(message, subject, to, from);
 		
 	}
 	
-	public static void sendMail(String message,String subject,String to,String from) {
-		
+	public static void sendMail(String message,String subject,String to[],String from) {
 		String host="smtp.gmail.com";
 		Properties properties=System.getProperties();
 		System.out.println("PROPERTIES"+properties);
@@ -68,8 +71,9 @@ public class SendJavaMailReport {
 		
 		try {
 		m.setFrom(from);
-		
-		m.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		m.setHeader("Emp.", "Suraj");
+	  for(String reciver:to)
+		m.addRecipient(Message.RecipientType.BCC, new InternetAddress(reciver,"Virendra Kumar Yadav"));
 		
 		m.setSubject(subject);
 		
@@ -98,7 +102,7 @@ public class SendJavaMailReport {
 		Transport.send(m);
 		
 		
-		System.out.println("Send  Success .......................!");
+		System.out.println(".....................  Sent  Success .......................!");
 		
 		
 		}catch(Exception e)
@@ -109,4 +113,6 @@ public class SendJavaMailReport {
 		
 		
 	}
+	
+	
 }

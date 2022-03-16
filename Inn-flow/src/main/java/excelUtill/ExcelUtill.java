@@ -3,24 +3,50 @@ package excelUtill;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.RowIdLifetime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.Test;
 
 public class ExcelUtill {
 
+	
+	    static Workbook wbook ;
+	    static Sheet sheetObj;	
+		static InputStream fi;
+		static OutputStream fo;
+		static Row rowObj;
+		static Cell cellObj;
+	
+	
+	
 	private  ExcelUtill() {
 		
 	}
+	
+
+//	public static void main(String[] args) {
+//		String path="Inn-Flow_TestCase.xlsx";
+//		ExcelUtill.getExcelObj().getDataFromExcelFromTestCase(path, "LogInPage", "TC001ValidLogin", "TestCaseID");
+//	}
+	//===============================ExcelUtil Singilton============================================//
   private static ExcelUtill excelObj;
 	public static  ExcelUtill getExcelObj() {
 		if(excelObj==null) {
@@ -29,10 +55,12 @@ public class ExcelUtill {
 		
 		return excelObj;
 	}
-	public Workbook getDataBook(String dataSheetPath) {
 	
 	
-	Workbook workbook = null;
+	
+//=====================================WorkBook obj==================================================//	
+	
+	public Workbook getWorkBook(String dataSheetPath) {
 		File xlFile = new File(dataSheetPath);
 		FileInputStream fis = null;
 		try {
@@ -45,34 +73,41 @@ public class ExcelUtill {
 		String fileExt = arrPath[1];
 		if ("xlsx".equalsIgnoreCase(fileExt)) {
 			try {
-				workbook = new XSSFWorkbook(fis);
+				wbook = new XSSFWorkbook(fis);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				workbook = new HSSFWorkbook(fis);
+				wbook = new HSSFWorkbook(fis);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return workbook;
-	}
-	public Sheet getDataSheet(Workbook workBook, String sheetName) {
-		Sheet sheet = null;
-		sheet = workBook.getSheet(sheetName);
-		return sheet;
+		return wbook;
 	}
 	
+	//=================================Sheet Obj===============================================//
+	public Sheet getSheetObj(Workbook workBook, String sheetName) {
+		
+		sheetObj = workBook.getSheet(sheetName);
+		return sheetObj;
+	}
+	
+	public Row getRowObj(Sheet sheetObj, int rowNum) {
+		   rowObj=sheetObj.getRow(rowNum);
+		
+		return rowObj;
+	}
 	public String getCellData(Row dataRow, int cellNum) {
 		DataFormatter df = new DataFormatter();
 		Cell curCell = dataRow.getCell(cellNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 		return df.formatCellValue(curCell);
 
 	}
-	
+//=====================================================================================================//	
 	public int getColumnNumberByColumnName(Sheet sheet, String columnName) {
 		Row firstRowColumns = sheet.getRow(0);
 		int columnNumber = -1;
@@ -86,20 +121,25 @@ public class ExcelUtill {
 		}
 		return columnNumber;
 	}
+	//============================================================================================//
 	public int getRowNumberByRowID(Sheet sheet, String rowID, String columnName) {
 		int rowCount = sheet.getLastRowNum();
 		int columnNumber = getColumnNumberByColumnName(sheet, columnName);
 		int rowNumber = -1;
 		for (int i = 1; i <= rowCount; i++) {
-			Cell cell = sheet.getRow(i).getCell(columnNumber);
+			rowObj = sheet.getRow(i);
+			if(rowObj!= null) {
+			Cell cell=rowObj.getCell(columnNumber,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+			
 			if (cell != null && cell.getStringCellValue().equalsIgnoreCase(rowID)) {
 				rowNumber = i;
 				break;
 			}
+		 }
 		}
 		return rowNumber;
 	}
-	
+	//===========================================================================================//
 	public List<Integer> getRowNumbersListByRowID(Sheet sheet, String columnName, String rowID) {
 		List<Integer> listData = new ArrayList<Integer>();
 		int rowCount = sheet.getLastRowNum();
@@ -113,7 +153,7 @@ public class ExcelUtill {
 		}
 		return listData;
 	}
-
+//======================================================================================================//
 	public String [] getValue(String key) {
 		String strArr[] = null;
 		String value;
@@ -128,14 +168,67 @@ public class ExcelUtill {
 		}
 		
 	}
+	//===================getDataFromExcel===========================================================//
+public String  getOneDataFromExcel(String pathOfWorkBook, String sheetName,int rowlth,int cellNum) {
+	wbook=getWorkBook(pathOfWorkBook);
+      sheetObj=getSheetObj(wbook, sheetName);
+      String value = null;    
+      for (int i = 1; i <= rowlth; i++) {
+		
 	
+     Row rowObj= getRowObj(sheetObj, i);
+      if(rowObj==null) {
+			 break;
+			}
+		 
+         Cell  cellObj =rowObj.getCell(cellNum,Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+		  if(cellObj==null) {
+			 break;
+			}
+		   value = cellObj.getStringCellValue();
+		   
+      }
+       return  value;
+
+}
+	
+
+public static  int getLastRowNum() {
+
+	return 	sheetObj.getLastRowNum();
+}
+//===============================DataBaseSheetData===============================================//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//=======================================excelData=================================================//
 
 	private Map<String,String> mapObj=new HashMap<String,  String>();
 	public Map<String, String> getDataFromExcel(String path,String sheetname,String rowName, String colnmName) {
 		 
 
-	Workbook wbook = getDataBook(path);
-	Sheet sheetObj = getDataSheet(wbook, sheetname);
+	Workbook wbook = getWorkBook(path);
+      sheetObj = getSheetObj(wbook, sheetname);
 	int dataRowNum=getRowNumberByRowID(sheetObj, rowName, colnmName);
          Row rowObj=sheetObj.getRow(dataRowNum);
            int colunmNum = rowObj.getLastCellNum();
@@ -152,4 +245,116 @@ public class ExcelUtill {
 
 	}
 	
+ ///===============================testcase data=======================================//
+	
+	public Map<String, String> getDataFromExcelFromTestCase(String path,String sheetname,String rowName, String colnmName) {
+		int dataRowNum; 
+
+		Workbook wbook = getWorkBook(path);
+	      sheetObj = getSheetObj(wbook, sheetname);     
+	    	  dataRowNum=getRowNumberByRowID(sheetObj, rowName, colnmName);
+	    	  
+	    	  for (int i =1 ; i <=7; i ++) {
+	         Row rowObj=sheetObj.getRow(dataRowNum);
+	         if(rowObj==null) {
+					break;
+				}
+	           int clmNum=getColumnNumberByColumnName(sheetObj, colnmName);
+	                    
+	        	   dataRowNum++;
+	           for(int j=clmNum+1;j<clmNum+2;j=j+2) {
+		  
+			  Cell  cellObj =rowObj.getCell(j);
+			  if(cellObj==null) {
+					break;
+				}
+			  String cellDataName=cellObj.getStringCellValue();
+			  
+			
+			String cellDataValue = rowObj.getCell(j + 1).getStringCellValue();
+			mapObj.put(cellDataName, cellDataValue);
+		}
+	      }
+		return mapObj;
+
+		}
+		
+ //========================================write on testcase===========================================//
+public  void writeData(String path,String sheetName,int rowNum,int cellNum,String data) throws IOException {
+	
+//	File file= new File(path);
+	/*if(!file.exists())
+	wbook=new XSSFWorkbook();
+	 fo= new FileOutputStream(path);
+	 wbook.write(fo);
+	*/   
+	
+	fi=new FileInputStream(path);
+	wbook= new XSSFWorkbook(fi);
+	
+	if(wbook.getSheetIndex(sheetName)==-1)
+	wbook.createSheet(sheetName);
+	
+	sheetObj=wbook.getSheet(sheetName);
+	
+	if(sheetObj.getRow(rowNum)==null) 
+		sheetObj.createRow(rowNum);
+		rowObj=sheetObj.getRow(rowNum);
+		
+		cellObj=rowObj.createCell(cellNum);
+		cellObj.setCellValue(data);
+		
+		fo=new FileOutputStream(path);
+		wbook.write(fo);
+		wbook.close();
+	  fi.close();
+	  fo.close();
+}
+//======================================keyDrivenData....===============================================//
+
+
+Cell  cellObjTestcaseID;
+Workbook workbook;
+String cellDataTestcaseID, cellData;
+Set<String> testcaseID = new HashSet<String>();
+@Test
+public Set<String> tain() {
+	// Path of the excel file
+	FileInputStream fs;
+
+	try {
+		fs = new FileInputStream("Inn-Flow_TestCase.xlsx");
+		workbook = new XSSFWorkbook(fs);// --xlsx
+		// workbook = new HSSFWorkbook(fs); //-- xlx
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	// Sheet sheet = workbook.getSheetAt(0);
+	sheetObj = workbook.getSheet("LogInPage");
+
+	int lastRow = sheetObj.getLastRowNum();
+  int colNum=getColumnNumberByColumnName(sheetObj, "Status");
+	for (int i = 1; i <= lastRow; i++) {
+		rowObj = sheetObj.getRow(i);
+		cellObj = rowObj.getCell(colNum);
+		if(cellObj==null) {
+			continue;
+		}else {
+		cellData = cellObj.getStringCellValue();
+
+		if (cellData.equalsIgnoreCase("Yes")) {
+			// System.out.println(cellData);
+			rowObj = sheetObj.getRow(i);
+			cellObjTestcaseID = rowObj.getCell(colNum-3);
+			cellDataTestcaseID = cellObjTestcaseID.getStringCellValue();
+			// System.out.println(cellDataTestcaseID);
+			testcaseID.add(cellDataTestcaseID);
+		}
+
+	}
+	}
+	return testcaseID;
+}
+
+
 }

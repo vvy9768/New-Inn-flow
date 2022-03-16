@@ -2,6 +2,8 @@ package pages;
 
 import org.openqa.selenium.By;
 
+import com.aventstack.extentreports.Status;
+
 import webUtills.WebUtills;
 
 public class Report {
@@ -9,8 +11,8 @@ public class Report {
 	WebUtills utill;
 	public Report(WebUtills utill) {
 		this.utill=utill;
-		// TODO Auto-generated constructor stub
 	}
+	
 	
 	By clkOn_date=By.cssSelector("select#ctl00_ContentPlaceHolder1_ddlEndingDate");
 	By runReport=By.cssSelector("button#ctl00_ContentPlaceHolder1_btnSer");
@@ -20,8 +22,6 @@ public class Report {
 	
 	
 	public void focusOnPage(String exp_url) {
-//	   utill.explicitlyWait(utill.getdriver(), 50);
-//		utill.waitUntillUrlToBePresent(exp_url);
 		utill.HoldOn(50000);
 		utill.getWindowHandleByUrl(exp_url);
 		
@@ -33,29 +33,39 @@ public class Report {
 	
 	
 	 public void chaked_ChakeBoxes(String companyName) {
-		 if(companyName=="All Hotals") {
+		 if(companyName.equalsIgnoreCase("Hotel Accounts")) {
 			 By cpmnyName=By.xpath("//span[text()='"+companyName+"']//ancestor::div//input[@id='ctl00_ContentPlaceHolder1_ckhHotel']");			
-			 utill.click( cpmnyName);
-		 }else {			 
-		By cpmnyName=By.xpath("//td[text()='"+companyName+"']//ancestor::tr//input");
-		utill.click( cpmnyName);
+			 utill.click( cpmnyName,companyName);
+		 }
+		 else if (companyName.equalsIgnoreCase("Non-Hotel Accounts")) {
+			 By cpmnyName=By.cssSelector("input#ctl00_ContentPlaceHolder1_chkAllNH");
+				utill.click( cpmnyName,companyName);	
+		 }
+		 else{			 
+		     By cpmnyName=By.xpath("//td[text()='"+companyName+"']//ancestor::tr//input");
+		utill.click( cpmnyName,companyName);
 		 }
 	 }
 	
+	 
 	public void loadTheReport() {
 		
-		utill.click(runReport);
+		utill.click(runReport,"load Report");
 	}
 	
 	
 	public void downloadTheReportInPDF() {
 		
-		utill.click(downPdf);
+		utill.click(downPdf,"pdf button");
+		 utill.getExtentLogger().log(Status.PASS, " Report is created  Successfully ");
+
 	}
 
 	public void downloadTheReportInExcel() {
 
-		utill.click(downExcel);
+		utill.click(downExcel,"excel button ");
+		 utill.getExtentLogger().log(Status.PASS, " Report is created  Successfully ");
+
 	}
 
 

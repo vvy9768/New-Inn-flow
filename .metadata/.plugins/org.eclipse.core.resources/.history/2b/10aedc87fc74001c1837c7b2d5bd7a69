@@ -1,0 +1,60 @@
+package pages;
+
+import java.util.Map;
+
+import org.openqa.selenium.By;
+
+import basePage.BasePage;
+import excelUtill.ExcelUtill;
+import webUtills.WebUtills;
+
+public class LoginPage extends BasePage {
+
+	WebUtills utill;
+
+	public LoginPage(WebUtills utill) {
+		this.utill = utill;
+
+	}
+
+	By we_uName = By.cssSelector("input#formBasicEmail");
+
+	By we_uPass = By.cssSelector("input#formBasicPassword");
+
+	By we_uLogIn_Bt = By.cssSelector("button[type='submit']");
+
+	private Map<String, String> tcData;
+	public void validateUserName() {
+		String varify_u_Name=utill.getPropVal("uName");
+		String text=utill.getText(we_uName);
+		tcData = utill.getTestCaseDataMap();
+		utill.verifyElement_IsVisible(we_uName, "UserName Input box ");
+		utill.sendKeys(we_uName, tcData.get("uName"));
+	}
+
+	public void validateUserPass() {
+
+		
+		utill.verifyElement_IsVisible(we_uPass, "UserPass  Input box ");
+		utill.sendKeys(we_uPass, tcData.get("uPass"));
+	}
+
+	public void validateUserLogIn() {
+
+		utill.getElement(we_uLogIn_Bt);
+		utill.verifyElement_IsVisible(we_uLogIn_Bt, "User logIn Button ");
+		utill.click(we_uLogIn_Bt);
+	}
+
+	public HomePage validLogIn() {
+		tcData = utill.getTestCaseDataMap();
+		utill.getElement(we_uName);
+		utill.sendKeys(we_uName, tcData.get("uName"));
+		utill.getElement(we_uPass);
+		utill.sendKeys(we_uPass, tcData.get("uPass"));
+		utill.getElement(we_uLogIn_Bt);
+		utill.click(we_uLogIn_Bt);
+		return new HomePage(utill);
+	}
+
+}

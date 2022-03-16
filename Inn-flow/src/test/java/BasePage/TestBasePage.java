@@ -30,20 +30,41 @@ public void beforeSuit() {
 }
  
  
- 
-	@BeforeMethod ()
-	public void beforeMethod(Method name) {
-		String methodName=name.getName();
-		utill.setExtentLogger(methodName);
+
+
+
+
+
+@BeforeMethod ()
+public void beforeMethod(Method name) {
+	
+		 String  methodName=name.getName();
+	 
 		
-	  	utill.launchBrowser(utill.getPropVal("browser"));
-		utill.maximize();
+	     utill.setExtentLogger(methodName);
+		
+	   	utill.launchBrowser(utill.getPropVal("browser"));
+		
+	   	utill.maximize();
+		
+	  	if(methodName.equalsIgnoreCase("TC0002GenrateReport"))
 		utill.get(utill.getPropVal("url"));
+		else
+			utill.get(utill.getPropVal("QA_url"));
 		
-		utill.setTestCaseData( ExcelUtill.getExcelObj().getDataFromExcel("src/main/resources/WorkBooks/Credencials.xlsx", "Sheet1", methodName, "TestCaseID"));
-		utill.setTestCaseData( ExcelUtill.getExcelObj().getDataFromExcel("src/main/resources/WorkBooks/EHID.xlsx", "Sheet1", "TC001", "Report"));
+		utill.imlecitlyWait(30);
+
+		utill.setTestCaseData(ExcelUtill.getExcelObj().getDataFromExcelFromTestCase(utill.getPropVal("testCaseEx"), "HomePg", methodName, "TestCaseID"));
+	     		
+	//	utill.setTestCaseData( ExcelUtill.getExcelObj().getDataFromExcel(utill.getPropVal("readDataEx"), "LogIn", methodName, "TestCaseID"));   
+	//	utill.setTestCaseData( ExcelUtill.getExcelObj().getDataFromExcel(utill.getPropVal("readDataEx"), "EHID", "TC001", "Report"));
 		
  }
+
+
+
+
+
 
 
 	@AfterMethod
@@ -51,37 +72,41 @@ public void beforeSuit() {
 		logger.info("Test Suite Execution method has been Start");
 		  
 		if (result.getStatus() == ITestResult.FAILURE) {
-			utill.getExtentLogger().log(Status.FAIL, "TEST CASE FAILED IS " + result.getName()); // to add name in extent
-																								// report
-			utill.getExtentLogger().log(Status.FAIL, "TEST CASE FAILED IS " + result.getThrowable()); // to add
-																									// error/exception
-																									// in extent
+			utill.getExtentLogger().log(Status.FAIL, "TEST CASE FAILED IS " + result.getName()); 
+																								
+			utill.getExtentLogger().log(Status.FAIL, "TEST CASE FAILED IS " + result.getThrowable()); 
 
-			String screenshotPath = utill.takeSnapshot(utill.getdriver(),result.getName()); // to add screen shot in extent reports
+			String screenshotPath = utill.takeSnapshot(utill.getdriver(),result.getName()); 
 			try {
-				utill.getExtentLogger().addScreenCaptureFromPath(screenshotPath);
+			 utill.getExtentLogger().addScreenCaptureFromPath(screenshotPath);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			}
 
 		} else if (result.getStatus() == ITestResult.SKIP) {
+			
 			utill.getExtentLogger().log(Status.SKIP, "Test Case SKIPPED IS " + result.getName());
+			
 		} else if (result.getStatus() == ITestResult.SUCCESS) {
 			utill.getExtentLogger().log(Status.PASS, "Test Case PASSED IS " + result.getName());
 		
 		}
 		
-		utill.quitBrowser();
+	
 		logger.info("Test Suite Execution method has been completed");
-		utill.flushExtentsReport();
+		utill.quitBrowser();
 	}
 
+	
+	
+	
 
 @AfterSuite
 public void afterSuit() {
-	
-	 new SendJavaMailReport(utill.getReportName()).main();
+	utill.flushExtentsReport();
+	//new SendJavaMailReport(utill.getReportName()).main();
+
 	 
 }
 

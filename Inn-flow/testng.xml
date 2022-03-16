@@ -5,8 +5,11 @@
 <listener class-name="Listeners.Listener"></listener>
 </listeners>
   <test  name="Test">
-    <classes>
-      <class name="testCases.TestCase_TC01"/>
+    <classes> 
+    
+      <class name="runTimexml.CreateTestNGXML">
+    
+      </class>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

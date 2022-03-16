@@ -7,9 +7,11 @@
         <methods>
           <include name="afterSuit"/>
           <include name="afterMethod"/>
+          <include name="TC001ValidateLoginPage"/>
           <include name="beforeSuit"/>
           <include name="TC0002GenrateReport"/>
           <include name="beforeMethod"/>
+          <include name="TC0003ValidateWebTableData"/>
         </methods>
       </class> <!-- testCases.TestCase_TC01 -->
     </classes>

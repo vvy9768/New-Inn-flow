@@ -26,7 +26,9 @@ public static ExtentReports createIntance( ) {
 	       extent.setSystemInfo("Browser", "Chrome");
 	       extent.attachReporter(htmlReporter);
 	       return extent;
+	     
 }
+
 
 private static String getReportName() {
 	 Date dt=new Date();

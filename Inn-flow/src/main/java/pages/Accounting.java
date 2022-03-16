@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import webUtills.WebUtills;
 
@@ -13,13 +14,13 @@ public Accounting(WebUtills utill) {
 	this.utill=utill;
 }
 
-By clk_Report=By.cssSelector("a#Reports");
+By report_bt=By.cssSelector("a#Reports");
 
-By clkOnBallenceSheet_=By.xpath("//td[text()='BALANCE SHEET']");
+By acct_bt=By.xpath("//div[text()='Accounts']");
 
-By text_we=By.cssSelector("pan#ctl00_ContentPlaceHolder1_LblBorad");
+By webTb_lk_tr=By.xpath("//table[@class='table table-hover table-bordered table-condensed']/tbody/tr");
 
-
+By webTb_lk_td=By.xpath("//table[@class='table table-hover table-bordered table-condensed']/tbody/tr/td");
 
 
 
@@ -32,18 +33,38 @@ public void windowHandle(String title) {
 
 
 public void clickOnReport() {
-	utill.click( clk_Report);
+	utill.click( report_bt,"Report button");
 }
 
 
 
 public Report NavigateOnReport(String nameOfDepartment) {
 	
-	
 	By nmOfDertment=By.xpath("//td[text()='"+nameOfDepartment+"']");
-	utill.click(nmOfDertment);
+	utill.click(nmOfDertment,nameOfDepartment);
 	return new Report(utill);
 }
 
+public void mouseOvertoAccountAndclick() {
+	utill.mouseOver(acct_bt);
+	utill.click_Act(acct_bt,"Account dropdown");
+	
+}
+public int NumOfRowInWebTable() {
+	int size=utill.getdriver().findElements(webTb_lk_tr).size();
+	   
+	return size;
+}
+
+
+
+WebElement weData;
+public String  getWebData(int rowNum,int CellNum) {
+	 	
+	 weData=utill.getdriver().findElement(By.xpath("//table[@class='table table-hover table-bordered table-condensed']//tbody/tr["+rowNum+"]/td["+CellNum+"]"));
+     
+    return weData.getText();
+	 
+}
 
 }
