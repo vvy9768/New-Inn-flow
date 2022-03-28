@@ -7,14 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.RowIdLifetime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -230,11 +228,20 @@ public static  int getLastRowNum() {
 	Workbook wbook = getWorkBook(path);
       sheetObj = getSheetObj(wbook, sheetname);
 	int dataRowNum=getRowNumberByRowID(sheetObj, rowName, colnmName);
-         Row rowObj=sheetObj.getRow(dataRowNum);
+        
+         
            int colunmNum = rowObj.getLastCellNum();
       
 	for (int i = 1; i <= colunmNum - 1; i = i + 2) {
-		  String cellDataName =rowObj.getCell(i).getStringCellValue();
+		 Row rowObj=sheetObj.getRow(dataRowNum);
+         if(rowObj==null)
+        	 continue;
+         
+		Cell cellObj =rowObj.getCell(i);
+		if(cellObj==null)
+       	 continue;
+       	
+		  String cellDataName=cellObj.getStringCellValue();
 		if(cellDataName.trim().equals("")) {
 			break;
 		}
@@ -280,7 +287,7 @@ public static  int getLastRowNum() {
 		}
 		
  //========================================write on testcase===========================================//
-public  void writeData(String path,String sheetName,int rowNum,int cellNum,String data) throws IOException {
+public  void writeData(String path,String sheetName,int rowNum,int cellNum,String data)  {
 	
 //	File file= new File(path);
 	/*if(!file.exists())
@@ -289,8 +296,18 @@ public  void writeData(String path,String sheetName,int rowNum,int cellNum,Strin
 	 wbook.write(fo);
 	*/   
 	
-	fi=new FileInputStream(path);
-	wbook= new XSSFWorkbook(fi);
+	try {
+		fi=new FileInputStream(path);
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	try {
+		wbook= new XSSFWorkbook(fi);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	
 	if(wbook.getSheetIndex(sheetName)==-1)
 	wbook.createSheet(sheetName);
@@ -304,11 +321,36 @@ public  void writeData(String path,String sheetName,int rowNum,int cellNum,Strin
 		cellObj=rowObj.createCell(cellNum);
 		cellObj.setCellValue(data);
 		
-		fo=new FileOutputStream(path);
-		wbook.write(fo);
-		wbook.close();
-	  fi.close();
-	  fo.close();
+		try {
+			fo=new FileOutputStream(path);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			wbook.write(fo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			wbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  try {
+		fi.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  try {
+		fo.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 }
 //======================================keyDrivenData....===============================================//
 
@@ -355,6 +397,72 @@ public Set<String> tain() {
 	}
 	return testcaseID;
 }
+//=====================================write on testcase wise Result ============================//
 
+public  void writeResultInTestCase(String path,String sheetName,String rowName,String cellName,String data)  {
+	
+//	File file= new File(path);
+	/*if(!file.exists())
+	wbook=new XSSFWorkbook();
+	 fo= new FileOutputStream(path);
+	 wbook.write(fo);
+	*/   
+	
+	try {
+		fi=new FileInputStream(path);
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	try {
+		wbook= new XSSFWorkbook(fi);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	if(wbook.getSheetIndex(sheetName)==-1)
+	wbook.createSheet(sheetName);
+	
+	sheetObj=wbook.getSheet(sheetName);
+	int rowNum=getRowNumberByRowID(sheetObj, rowName, cellName);
+	if(sheetObj.getRow(rowNum)==null) 
+		sheetObj.createRow(rowNum);
+		rowObj=sheetObj.getRow(rowNum);
+		int cellNum=getColumnNumberByColumnName(sheetObj, cellName);
+		cellObj=rowObj.createCell(cellNum);
+		cellObj.setCellValue(data);
+		
+		try {
+			fo=new FileOutputStream(path);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			wbook.write(fo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			wbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  try {
+		fi.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  try {
+		fo.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
 
 }

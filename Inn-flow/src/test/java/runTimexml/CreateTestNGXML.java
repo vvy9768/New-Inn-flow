@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,31 +13,29 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.testng.TestNG;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import excelUtill.ExcelUtill;
-
 public class CreateTestNGXML {
-	final String filePath = "RunTime.xml";
+	final String filePath = "src/test/resources/RunTime.xml";
 	Document document;
 
+	
+	@Parameters ("testCaseName")
 	@Test
-	public void writeXML() throws SAXException, IOException {
+	public void writeXML(String testCaseName) throws SAXException, IOException {
 		
 		try {
 //==============create new instance of xml ==================================//
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setValidating(true);
-			 factory.setIgnoringElementContentWhitespace(true);
-			 
-			DocumentBuilder docBuilder = factory.newDocumentBuilder();
+			DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dBF.newDocumentBuilder();
 			document = docBuilder.newDocument();
+
 //=========================create suite instance================================//
 			Element suite = document.createElement("suite");
 			document.appendChild(suite);
@@ -73,16 +70,13 @@ public class CreateTestNGXML {
 			test.appendChild(classes);
 			
 			
-	
-		
+			ExcelUtillXml	run=new ExcelUtillXml();
+			Set<String> tescaseid = run.tain(testCaseName);
 			
-			ExcelUtill	run=ExcelUtill.getExcelObj();
-			Set<String> tescaseid = run.tain();
-		Element	clsElmt=suiteClass(classes, "testCases.TestCase_TC01" );
+		Element	clsElmt=suiteClass(classes, "testCases."+testCaseName );
 		Element mathodElmt=suiteMathods(clsElmt);
 			for (String string : tescaseid) {
 				mathodInclude(mathodElmt, string);
-				
 				
 			}
 			

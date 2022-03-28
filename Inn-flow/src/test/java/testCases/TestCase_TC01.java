@@ -7,10 +7,10 @@ import java.util.Map;
 import org.testng.annotations.Test;
 import BasePage.TestBasePage;
 import excelUtill.ExcelUtill;
-import pages.Accounting;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.Report;
+import pages.accounting.Accounting;
+import pages.homepage.HomePage;
+import pages.login.LoginPage;
+import pages.roports.Report;
 
 
 

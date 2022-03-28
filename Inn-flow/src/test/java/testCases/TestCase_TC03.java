@@ -5,8 +5,8 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import BasePage.TestBasePage;
-import pages.HomePage;
-import pages.LoginPage;
+import pages.homepage.HomePage;
+import pages.login.LoginPage;
 
 public class TestCase_TC03 extends TestBasePage{
     
@@ -16,7 +16,7 @@ public class TestCase_TC03 extends TestBasePage{
 	HomePage homePg;
 	
 	
-	@Test
+	@Test(priority = 1,groups = "Rolls&permission")
 	public void validateUserRoletext() {
 		tcData= utill.getTestCaseDataMap();
 		loginPg=new LoginPage(utill);
@@ -29,7 +29,7 @@ public class TestCase_TC03 extends TestBasePage{
 	}
 	
 	
-	@Test
+	@Test (priority = 2,groups = "Rolls&permission")	
 	public void validateMenuBar() {
 		tcData= utill.getTestCaseDataMap();
 		loginPg=new LoginPage(utill);
@@ -41,7 +41,7 @@ public class TestCase_TC03 extends TestBasePage{
 		
 	}
 	
-	@Test
+	@Test (priority = 3,groups = "Rolls&permission")
 	public void validateAccountingMenu() {
 		
 		loginPg=new LoginPage(utill);
@@ -54,7 +54,7 @@ public class TestCase_TC03 extends TestBasePage{
 		
 		
 	}
-	@Test
+	@Test(priority = 4, groups = "Rolls&permission")
 	public void validateLabourMngMenu() {
 		loginPg=new LoginPage(utill);
 		

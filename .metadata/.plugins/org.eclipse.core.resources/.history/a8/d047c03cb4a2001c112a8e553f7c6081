@@ -1,0 +1,25 @@
+package pages;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class Admin {
+	WebUtills utill;
+
+	public Admin(WebUtills utill) {
+	   this.utill=utill;	
+  
+}
+	By admin=By.xpath("//img[@alt='Administration']");
+	By users=By.xpath("//div[text()='Users']");
+	
+	
+	public void EnabilityOfUserPage() {
+		utill.mouseOver(admin);
+		utill.click(users, " Users Managment ");
+	}
+	
+	
+	
+}

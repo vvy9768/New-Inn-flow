@@ -1,0 +1,7 @@
+package testCases;
+
+import BasePage.TestBasePage;
+
+public class TestCase_TC04 extends TestBasePage {
+
+}

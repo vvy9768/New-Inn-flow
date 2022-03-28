@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
@@ -41,13 +42,15 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.google.common.io.Files;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 
 
 public class WebUtills {
 
 
-	private static final Logger logger = Logger.getLogger(WebUtills.class);	
+private static final Logger logger = Logger.getLogger(WebUtills.class);	
 	
 private static WebUtills WbUtill;	
 private static WebDriver driver;	
@@ -89,25 +92,26 @@ public  WebDriver getdriver() {
 public void launchBrowser(String browserName) {
 	
 	if(browserName.equalsIgnoreCase("chrome")){
-		System.setProperty("webdriver.chrome.driver", "jar/chromedriver.exe");
+		//System.setProperty("webdriver.chrome.driver", "jar/chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
 		driver=new ChromeDriver();
 		logger.info(browserName+" Browser has been launched successfully");	
 		exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
 
  	}else if(browserName.equalsIgnoreCase("firefox")) {
-		System.setProperty("webdriver.gecko.driver", "jar/geckodriver.exe");
+ 		WebDriverManager.firefoxdriver().setup();
 	driver=new FirefoxDriver();
 	logger.info(browserName+" Browser has been launched successfully");	
 	exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
 
 	}else if(browserName.equalsIgnoreCase("ms")) {
-		System.setProperty("webdriver.edge.driver", "jar/msedgedriver.exe");
+		WebDriverManager.edgedriver().setup();
 	 driver=new EdgeDriver();
 	 logger.info(browserName+" Browser has been launched successfully");	
 	 exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
 	
 	}else if(browserName.equalsIgnoreCase("ie")) {
-		System.setProperty("webdriver.ie.driver", "jar/msedgedriver.exe");
+		WebDriverManager.iedriver().setup();
 		driver=new InternetExplorerDriver();
 		logger.info(browserName+" Browser has been launched successfully");	//driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS );
 		exTestLogger.log(Status.INFO, String.format(browserName+" Browser has been launched successfully"));
@@ -115,6 +119,11 @@ public void launchBrowser(String browserName) {
 	}
 	
 	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+}
+
+public String getAtributeValue(By by, String attributeName) {
+	        we=getElement(by);
+	      return  we.getAttribute(attributeName);
 }
 
 public void navigateTo(String url) {
@@ -129,7 +138,6 @@ public void get(String url) {
 	
 public void closeBrowser() {
 	driver.close();
-	
 	exTestLogger.log(Status.INFO, String.format("Browser closed ") );
 
 }
@@ -203,11 +211,33 @@ public void verifyText(By element, String expectedText) {
 
 	if (actualText.equals(expectedText)) {
 		exTestLogger.log(Status.PASS,
-				MarkupHelper.createLabel(String.format(expectedText+"  is Matched"), ExtentColor.GREEN));
+				MarkupHelper.createLabel(String.format(expectedText+" Text  is Matched"), ExtentColor.GREEN));
 
 	} else {
 		exTestLogger.log(Status.FAIL,
-				MarkupHelper.createLabel(String.format(expectedText+" is not Matched"), ExtentColor.RED));
+				MarkupHelper.createLabel(String.format(expectedText+" is text not Matched"), ExtentColor.RED));
+
+		try {
+			Assert.assertEquals(actualText, expectedText);
+		} catch (Throwable t) {
+		
+			exTestLogger.log(Status.FAIL, t);
+
+		}
+	}
+}
+public void verifyTextByContains(By element, String expectedText) {
+	String actualText;
+	
+	 actualText = getElement(element).getText();
+
+	if (actualText.contains(expectedText)) {
+		exTestLogger.log(Status.PASS,
+				MarkupHelper.createLabel(String.format(expectedText+" Text  is Matched"), ExtentColor.GREEN));
+
+	} else {
+		exTestLogger.log(Status.FAIL,
+				MarkupHelper.createLabel(String.format(expectedText+" is text not Matched"), ExtentColor.RED));
 
 		try {
 			Assert.assertEquals(actualText, expectedText);
@@ -399,12 +429,12 @@ public void selectByVisibleText(By by, String text) {
 	
 	}
 
-	public void mouseOver(By element) {
+	public void mouseOver(By element,String elementName) {
 		act = new Actions(driver);
 		act.moveToElement(getElement(element)).build().perform();
-		String txt =getElement(element).getText();
 		
-		exTestLogger.info( MarkupHelper.createLabel("mouse over to "+txt, ExtentColor.BLUE));
+		
+		exTestLogger.info( MarkupHelper.createLabel("mouse over to "+elementName, ExtentColor.BLUE));
 		
 	}
 
@@ -494,9 +524,9 @@ public void selectByVisibleText(By by, String text) {
 	public void pageLoadTimeOut(int time) {
 		driver.manage().timeouts().pageLoadTimeout(time, TimeUnit.SECONDS);
 	}
-	public void HoldOn(int time) {
+	public void HoldOn(int timeInSec) {
 		try {
-			Thread.sleep(time);
+			Thread.sleep(timeInSec*1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -673,9 +703,6 @@ public void selectByVisibleText(By by, String text) {
 		       
 	}
 
-	private void removeTest() {
-		extent.removeTest(exTestLogger);
-	}
 	
 	public  String getReportName() {
 		 String directory;
@@ -763,8 +790,36 @@ public void selectByVisibleText(By by, String text) {
 	     return data;
     }
 	
+	//=========================Random Class========================================//
 	
+	public String getRandomMobileNumber() {
+		 Random rand = new Random();
+		    int num1, num2, num3;
+		    num1 = rand.nextInt (900) + 100;
+		    num2 = rand.nextInt (643) + 100;
+		    num3 = rand.nextInt (9000) + 1000;
+      	 System.out.println(num1+""+num2+""+num3);
+  return  (num1+""+num2+""+num3);
+	}
    
+	public String getRandomString() {
+	
+		 String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567"
+			 		+ "890abcdefghijklmnopqrstuvwxyz";
+
+		    StringBuilder sb = new StringBuilder();
+		    Random random = new Random();
+		    int length = 5;
+		    for(int i = 0; i < length; i++) {
+		      int index = random.nextInt(alphabet.length());
+                 char randomChar = alphabet.charAt(index);
+		      sb.append(randomChar);
+		    }
+
+		    String randomString = sb.toString();
+		    System.out.println("Random String is: " + randomString);
+		    return randomString;
+	}
 	
  
 }

@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 import com.aventstack.extentreports.Status;
 
-import pages.HomePage;
+import pages.homepage.HomePage;
 import webUtills.WebUtills;
 
 public class BasePage {

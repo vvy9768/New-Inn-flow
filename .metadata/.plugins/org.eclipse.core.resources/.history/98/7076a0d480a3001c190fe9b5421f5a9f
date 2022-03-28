@@ -1,0 +1,49 @@
+package pages.UserManagment;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class Users {
+	WebUtills utill;
+	public Users(WebUtills utill) {
+		this.utill=utill;
+	}
+
+By firstName_In=By.cssSelector("input#txtFirstName");
+By lastName_In=By.cssSelector("input#txtLastName");
+By email_In =By.cssSelector("input#txtEmail");
+By mobile_In= By.cssSelector("input#txtPhoneNo");
+By addUser=By.xpath("//button[@type='submit']");
+By addUser_bt=By.xpath("//button[text()='Add User']");	
+	
+	
+
+
+
+
+public void AddNewUsers() {
+	utill.click_Act(addUser, " Add Users ");
+}
+
+	
+	public void validateEnabilityOfElement() {
+		
+		utill.verifyElement_IsEnable(firstName_In, "FirstName Inputbox");
+		utill.verifyElement_IsEnable(lastName_In, "LastName Inputbox");
+		utill.verifyElement_IsEnable(email_In, "Email Inputbox");
+		utill.verifyElement_IsEnable(mobile_In, "Mobile No. Inputbox ");
+	}
+	
+    public void validateLastNameEnability() {
+    	
+    	
+	}
+    
+   
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,38 @@
+package pages.UserManagment;
+
+import org.openqa.selenium.By;
+
+import webUtills.WebUtills;
+
+public class Users {
+	WebUtills utill;
+	public Users(WebUtills utill) {
+		this.utill=utill;
+	}
+
+By firstName=By.cssSelector("input#txtFirstName");
+By lastName=By.cssSelector("input#txtLastName");
+By email_in =By.cssSelector("input#txtEmail");
+
+	
+	
+	
+	
+	
+	public void validateFirstNameEnability() {
+		utill.verifyElement_IsEnable(firstName, "FirstName Field");
+		utill.verifyElement_IsEnable(lastName, "LastName Field");
+		  
+	}
+	
+    public void validateLastNameEnability() {
+    	
+	}
+    
+    public void 
+	
+	
+	
+	
+	
+}

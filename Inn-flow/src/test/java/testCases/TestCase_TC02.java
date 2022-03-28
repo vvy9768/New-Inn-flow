@@ -6,8 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import BasePage.TestBasePage;
-
-import pages.LoginPage;
+import pages.login.LoginPage;
 
 
 public class TestCase_TC02 extends TestBasePage{

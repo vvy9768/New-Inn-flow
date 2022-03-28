@@ -1,0 +1,24 @@
+browser:chrome
+
+url:https://stv2.inn-flow.net/
+
+QA_url:https://inn-flow-v2-testv2.azurewebsites.net/
+
+type_uName: UserName input box
+
+type_uPass: UserPassword input box
+
+type_uLogIn: LogIn Button
+
+writeDataEx:src/main/resources/WorkBooks/WriteData.xlsx
+
+readDataEx:src/main/resources/WorkBooks/ReadData.xlsx
+
+testCaseEx:src/test/resources/Inn-Flow_TestCase.xlsx
+
+dataBaseEx:SQLSheet/dataBase.xlsx
+
+Accounting_st:Sheet1
+
+Labor_st:Sheet2
+

@@ -1,0 +1,23 @@
+package testCases;
+
+import org.testng.annotations.Test;
+
+import BasePage.TestBasePage;
+import pages.UserManagment.Users;
+import pages.administration.Admin;
+
+
+public class TestCase_TC04 extends TestBasePage {
+	Admin admin;
+	Users user;
+@Test
+	public void validateEnabilityOfUserPage() {
+
+		admin = new Admin(utill);
+		user=new Users(utill);
+		admin.validUserLogIn();
+		admin.NavigateToUsersPage();
+		user.validateEnabilityOfElement();
+	
+}
+}

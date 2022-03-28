@@ -1,0 +1,12 @@
+package testCases;
+
+import org.testng.annotations.Test;
+
+import BasePage.TestBasePage;
+
+public class TestCase_TC04 extends TestBasePage {
+@Test
+	public void validateEnabilityOfUserPage() {
+		
+	}
+}

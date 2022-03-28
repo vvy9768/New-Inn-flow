@@ -20,7 +20,6 @@ import javax.mail.internet.MimeMultipart;
 
 public class SendJavaMailReport {
 	static String fileName;
-	//Reports/AutomationReport_Mon_Jan_24_00_00_00_IST_2022.html
 	public SendJavaMailReport(String filename) {
 		fileName=filename;
 	
@@ -30,9 +29,11 @@ public class SendJavaMailReport {
 		
 	    Date d=new Date();
 		String message="Hello Dear ! this is report of the day ";
-		String subject ="Inn-Flow QA(Automation) : Report "+d;
+		String subject ="Inn-Flow QA(Automation) : Reports "+d;
 		//,"jyoti.rajpal@inn-flow.com","avinash.dubey@inn-flow.com"
-		String to[]={"kanha3476599@gmail.com","skgaud81199@gmail.com"};
+		//String to[]={"jyoti.rajpal@inn-flow.com","avinash.dubey@inn-flow.com"};
+		//String to[]={"kanha3476599@gmail.com","skgaud81199@gmail.com"};
+		String to[]={"my702478@gmail.com","skgaud81199@gmail.com","kanha3476599@gmail.com"};
 		String from="softech.vire@gmail.com";
 		
 		//String fileName="Reports/"+"AutomationReport_Wed_Jan_12_13_02_31_IST_2022.html";
@@ -98,12 +99,10 @@ public class SendJavaMailReport {
          mp.addBodyPart(text);
          mp.addBodyPart(attachment);
          m.setContent(mp);
-     
+         
 		Transport.send(m);
 		
-		
 		System.out.println(".....................  Sent  Success .......................!");
-		
 		
 		}catch(Exception e)
 		{
