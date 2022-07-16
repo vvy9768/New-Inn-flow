@@ -32,8 +32,8 @@ public class SendJavaMailReport {
 		String subject ="Inn-Flow QA(Automation) : Reports "+d;
 		//,"jyoti.rajpal@inn-flow.com","avinash.dubey@inn-flow.com"
 		//String to[]={"jyoti.rajpal@inn-flow.com","avinash.dubey@inn-flow.com"};
-		//String to[]={"kanha3476599@gmail.com","skgaud81199@gmail.com"};
-		String to[]={"my702478@gmail.com","skgaud81199@gmail.com","kanha3476599@gmail.com"};
+		String to[]={"softech.vire0@yahoo.com"};
+		//String to[]={"my702478@gmail.com","skgaud81199@gmail.com","kanha3476599@gmail.com"};
 		String from="softech.vire@gmail.com";
 		
 		//String fileName="Reports/"+"AutomationReport_Wed_Jan_12_13_02_31_IST_2022.html";
