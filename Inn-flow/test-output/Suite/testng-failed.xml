@@ -10,9 +10,21 @@
         <methods>
           <include name="afterSuit"/>
           <include name="afterMethod"/>
-          <include name="validateAddNewUserDetails"/>
           <include name="beforeSuit"/>
+          <include name="validate_AddPTOTab"/>
+          <include name="validateDocumentPage_Type"/>
           <include name="beforeMethod"/>
+          <include name="crtNewUserWithPayroll"/>
+          <include name="chakeEnabilityByclickElement"/>
+          <include name="validateDocumentPage_uploadFile"/>
+          <include name="validateEnabilityOfUserPage"/>
+          <include name="validateAddNewUserDetails"/>
+          <include name="validateSalaryExamptFromOT"/>
+          <include name="validateFilterByRolls"/>
+          <include name="validateSearchBox"/>
+          <include name="crtNewUserWithoutPayroll"/>
+          <include name="validateNonSalaryExamptFromOT"/>
+          <include name="validate_AddReviewTab"/>
         </methods>
       </class> <!-- testCases.TestCase_TC04 -->
     </classes>

@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -162,8 +163,8 @@ public String getCurrentUrl() {
 	
 	return driver.getCurrentUrl();
 }
-public WebElement getElement(By by) {
-	we= driver.findElement(by);
+public WebElement getElement(By we2) {
+	we= driver.findElement(we2);
 	
 	return	we;
 }
@@ -282,8 +283,8 @@ public void verifyElement_IsSelected(By element, String elementName) {
 	}
 }
 
-public void verifyElement_IsEnable(By element, String elementName) {
-	boolean actual = getElement(element).isEnabled();
+public void verifyElement_IsEnable(WebElement we2, String elementName) {
+	boolean actual = we2.isEnabled();
 	
 	if (actual == true) {
 		exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(elementName)+" is Enable", ExtentColor.GREEN));
@@ -298,6 +299,23 @@ public void verifyElement_IsEnable(By element, String elementName) {
 		}
 
 	}
+}
+	public void verifyElement_IsEnable(By we2, String elementName) {
+		boolean actual = getElement(we2).isEnabled();
+		
+		if (actual == true) {
+			exTestLogger.log(Status.PASS, MarkupHelper.createLabel(String.format(elementName)+" is Enable", ExtentColor.GREEN));
+
+		} else {
+			exTestLogger.log(Status.FAIL, MarkupHelper.createLabel(String.format(elementName)+ " is  Disable", ExtentColor.RED));
+
+			try {
+				Assert.assertEquals(actual, true);
+			} catch (Throwable t) {
+				exTestLogger.log(Status.FAIL, t);
+			}
+
+		}
 	
 }
 public void verifyTextByElement(By element, String exp_text) {
@@ -538,9 +556,9 @@ public void selectByVisibleText(By by, String text) {
 		
 	}
 
-	public void waitUntillVisibleOfElement(By Element) {
-		we=driver.findElement(Element);
-		wait.until(ExpectedConditions.visibilityOf(we));
+	public void waitUntillVisibleOfElement(int i, By element) {
+		explicitlyWait(driver, i);
+		wait.until(ExpectedConditions.visibilityOf(getElement(element)));
 	
 	}
 	
@@ -820,6 +838,22 @@ public void selectByVisibleText(By by, String text) {
 		    System.out.println("Random String is: " + randomString);
 		    return randomString;
 	}
+
+	public void selectRandomDataFromDD(By noOfDays_list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void sendKeysByKeyBoard(By brow_lk, Keys enter) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getRandomStringOnLength(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
  
 }

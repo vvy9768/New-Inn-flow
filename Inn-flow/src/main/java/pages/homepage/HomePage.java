@@ -57,7 +57,7 @@ By labor_txt=By.xpath("//div[text()='Labor']");
 
 public void wait_HomePage() {
 	utill.explicitlyWait(utill.getdriver(), 10);
-	utill.waitUntillVisibleOfElement(hmPage_text); 
+	utill.waitUntillVisibleOfElement(10,hmPage_text); 
    
 }
 

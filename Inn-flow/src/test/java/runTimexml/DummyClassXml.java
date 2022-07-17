@@ -50,14 +50,13 @@ public class DummyClassXml {
 			test.setAttributeNode(at_test);
 
 			Element classes = document.createElement("classes");
-			test.appendChild(classes);
-
-			ExcelUtil run = new ExcelUtil();
-			Set<String> tescaseid = run.tain("class NMW");
-			for (String string : tescaseid) {
-				suiteClass(classes, "automation.excelReadCreateXMLRunTestCase." + string);
-			}
-//			suiteClass(classes, "a");
+	
+		//	ExcelUtil run = new ExcelUtil();
+			//Set<String> tescaseid = run.tain("class NMW");
+//			for (String string : tescaseid) {
+//				suiteClass(classes, "automation.excelReadCreateXMLRunTestCase." + string);
+//			}
+////			suiteClass(classes, "a");
 //			suiteClass(classes, "b");
 //			suiteClass(classes, "c");
 //			suiteClass(classes, "d");

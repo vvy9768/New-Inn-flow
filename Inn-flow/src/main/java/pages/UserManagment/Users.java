@@ -41,7 +41,7 @@ public void AddNewUsers() {
 	
     public void addNewUserDetails() {
     	utill.explicitlyWait(utill.getdriver(), 10);
-    	utill.waitUntillVisibleOfElement(firstName_In);
+    	utill.waitUntillVisibleOfElement(3,firstName_In);
     	utill.actSendKeys(firstName_In,utill.getRandomString());
     	utill.actSendKeys(lastName_In, utill.getRandomString());
     	utill.HoldOn(5);
